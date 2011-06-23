@@ -1,28 +1,29 @@
+
 public class HammingSimulator {
 	public static void main(String[] args) {
-		MatrixReader reader;
-		int[][] g, h, r, p1, p2;
+		Matrix Generator, Checker, Receiver, Data1, Data2, Received, CheckResult, Decoded;
 		
-		reader = new MatrixReader();
+		Generator = new Matrix("g.txt");
+		Checker = new Matrix("h.txt");
+		Receiver = new Matrix("r.txt");
+		Data1 = new Matrix("p1.txt");
+		Data2 = new Matrix("p2.txt");
 		
-		reader.readFile("g.txt");
-		g = reader.getMatrix();
-		reader.printMatrix();
+		Received = Matrix.multiply(Generator, Data1);
+		Received.modulate();
+		Received.set(2, 0, 0);
 		
-		reader.readFile("h.txt");
-		h = reader.getMatrix();
-		reader.printMatrix();
+		CheckResult = Matrix.multiply(Checker, Received);
+		CheckResult.modulate();
+		//CheckResult.printMatrix();
+		if(CheckResult.toInt() == 0) {
+			System.out.println("Matrix fehlerfrei empfangen");
+		}
+		else {
+			System.out.println("Fehler in der Übertragung.");
+		}
 		
-		reader.readFile("r.txt");
-		r = reader.getMatrix();
-		reader.printMatrix();
-		
-		reader.readFile("p1.txt");
-		p1 = reader.getMatrix();
-		reader.printMatrix();
-		
-		reader.readFile("p2.txt");
-		p2 = reader.getMatrix();
-		reader.printMatrix();
+		Decoded = Matrix.multiply(Receiver, Received);
+		Decoded.printMatrix();
 	}
 }
