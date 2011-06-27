@@ -19,10 +19,17 @@ public class Matrix {
 		this.matrix = matrix;
 	}
 	
+	/**
+	 * @return The matrix you are currently working with as an integer array
+	 */
 	public int[][] getMatrix() {
 		return matrix;
 	}
 	
+	/**
+	 * Reads a file and turns it into a matrix
+	 * @param file the file to read
+	 */
 	public void readFile(String file) {
 		String line = "";
 		String column[];
@@ -67,6 +74,13 @@ public class Matrix {
 		}
 	}
 	
+	/**
+	 * set a value in the matrix
+	 * @param line
+	 * @param column
+	 * @param value
+	 */
+	
 	public void set(int line, int column, int value) {
 		matrix[line][column] = value;
 	}
@@ -77,6 +91,10 @@ public class Matrix {
 	
 	public void printMatrix() {
 		printMatrix(matrix);
+	}
+	
+	public void printMatrixLine() {
+		printMatrixLine(matrix);
 	}
 	
 	public static void printMatrix(int[][] m) {
@@ -94,6 +112,19 @@ public class Matrix {
 		System.out.println("]");
 	}
 	
+	public static void printMatrixLine(int[][] m) {
+		System.out.print("(");
+		for(int i = 0; i < m[0].length; i++) {
+			for(int j = 0; j < m.length; j++) {
+				System.out.print(m[j][i]);
+				if(j < m.length-1) {
+					System.out.print(" ");
+				}
+			}
+		}
+		System.out.println(")");
+	}
+	
 	public static int[][] multiply(int[][] m, int[][] n) {
 		try {
 			if(m[0].length != n.length) {
@@ -104,7 +135,6 @@ public class Matrix {
 		} catch(ArrayIndexOutOfBoundsException e) {
 			System.err.println(e.getMessage());
 		}
-		//System.out.println("New Matrix size: "+m.length + "x" + n[0].length);
 		
 		int[][] o = new int[m.length][n[0].length];
 		for(int i = 0; i < o.length; i++) {
