@@ -24,6 +24,8 @@ public class Aufgaben {
 			h.check();
 			h.decode();
 		}
+		
+		Matrix.modulate(Matrix.multiply(new Matrix("m1"), new Matrix("m2")), 11).printMatrix();
 	}
 
 }

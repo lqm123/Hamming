@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 
 public class Matrix {
-	int[][] matrix;
+	double[][] matrix;
 	int lines, columns;
 	
 	public Matrix() {
@@ -15,14 +15,14 @@ public class Matrix {
 		readFile(file);
 	}
 	
-	public Matrix(int[][] matrix) {
+	public Matrix(double[][] matrix) {
 		this.matrix = matrix;
 	}
 	
 	/**
 	 * @return The matrix you are currently working with as an integer array
 	 */
-	public int[][] getMatrix() {
+	public double[][] getMatrix() {
 		return matrix;
 	}
 	
@@ -62,14 +62,14 @@ public class Matrix {
 		}
 		
 		
-		matrix = new int[lines][columns];
+		matrix = new double[lines][columns];
 		
 		for(int i = 0; i < lines; i++) {
 			line = scanner.nextLine();
 			column = line.split(" ");
 			
 			for(int j = 0; j < columns; j++) {
-				matrix[i][j] = Integer.parseInt(column[j]);
+				matrix[i][j] = Double.parseDouble((column[j]));
 			}
 		}
 	}
@@ -81,11 +81,11 @@ public class Matrix {
 	 * @param value
 	 */
 	
-	public void set(int line, int column, int value) {
+	public void set(int line, int column, double value) {
 		matrix[line][column] = value;
 	}
 	
-	public int get(int line, int column) {
+	public double get(int line, int column) {
 		return matrix[line][column];
 	}
 	
@@ -97,7 +97,7 @@ public class Matrix {
 		printMatrixLine(matrix);
 	}
 	
-	public static void printMatrix(int[][] m) {
+	public static void printMatrix(double[][] m) {
 		System.out.print("[");
 		for(int i = 0; i < m.length; i++) {
 			System.out.print("[");
@@ -112,7 +112,7 @@ public class Matrix {
 		System.out.println("]");
 	}
 	
-	public static void printMatrixLine(int[][] m) {
+	public static void printMatrixLine(double[][] m) {
 		System.out.print("(");
 		for(int i = 0; i < m[0].length; i++) {
 			for(int j = 0; j < m.length; j++) {
@@ -125,18 +125,14 @@ public class Matrix {
 		System.out.println(")");
 	}
 	
-	public static int[][] multiply(int[][] m, int[][] n) {
-		try {
-			if(m[0].length != n.length) {
-				System.err.println("Matrix length not matching.");
-				System.err.println("Number of lines of first matrix has to be number of columns of second matrix.");
-				return null;
-			}
-		} catch(ArrayIndexOutOfBoundsException e) {
-			System.err.println(e.getMessage());
+	public static double[][] multiply(double[][] m, double[][] n) {
+		if(check(m, n) == false) {
+			System.err.println("Matrices length not matching.");
+			System.err.println("Number of columns of first matrix has to be number of rows of second matrix.");
+			return null;
 		}
 		
-		int[][] o = new int[m.length][n[0].length];
+		double[][] o = new double[m.length][n[0].length];
 		for(int i = 0; i < o.length; i++) {
 			for(int j = 0; j < o[0].length; j++) {
 				o[i][j] = 0;
@@ -146,6 +142,17 @@ public class Matrix {
 			}
 		}
 		return o;
+	}
+	
+	public static boolean check(double[][] m, double[][] n) {
+		if(m[0].length != n.length) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean check(Matrix M, Matrix N) {
+		return check(M.getMatrix(), N.getMatrix());
 	}
 	
 	public static Matrix multiply(Matrix M, Matrix N) {
@@ -160,13 +167,17 @@ public class Matrix {
 		matrix = modulate(matrix, by);
 	}
 	
-	public static int[][] modulate(int[][] m, int by) {
+	public static double[][] modulate(double[][] m, int by) {
 		for(int i = 0; i < m.length; i++) {
 			for(int j = 0; j < m[0].length; j++) {
 				m[i][j] = m[i][j] % by;
 			}
 		}
 		return m;
+	}
+	
+	public static Matrix modulate(Matrix M, int by) {
+		return new Matrix(modulate(M.getMatrix(), by));
 	}
 	
 	public int toInt() {

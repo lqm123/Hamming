@@ -81,7 +81,7 @@ public class HammingSimulator {
 	 * @param errorpos position of the error
 	 */
 	public void correctError(int errorpos) {
-		int prev, now;
+		double prev, now;
 		prev = received.get(errorpos-1, 0);
 		now = (received.get(errorpos-1, 0)+1)%2;
 		received.set(errorpos-1, 0, now);
